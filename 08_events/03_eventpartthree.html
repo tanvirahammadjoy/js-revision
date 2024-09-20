@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Chai aur code</h1>
+    <button id="stop">Stop</button>
+  </body>
+  <script>
+    const sayHitesh = function () {
+      console.log("Hitesh");
+    };
+    const changeText = function () {
+      document.querySelector("h1").innerHTML = "best JS series";
+    };
+
+    const changeMe = setTimeout(changeText, 2000);
+
+    document.querySelector("#stop").addEventListener("click", function () {
+      clearTimeout(changeMe);
+      console.log("STOPPED");
+    });
+
+    // ** Types of Events  ** //
+
+    // Types of Events in JavaScript: In-depth Details and Behind the Scenes
+    // In JavaScript, events are actions or occurrences that happen in the browser, which can be triggered by users or the browser itself. JavaScript can capture and respond to these events. These events range from user interactions (clicks, typing) to browser behaviors (loading a page, resizing).
+
+    // 1. Mouse Events
+    // Mouse events are triggered by user interaction with a mouse device (or other pointer devices like a trackpad or touch screen). They are the most commonly used events in web development.
+
+    // Common Mouse Events:
+
+    // click: Triggered when the user presses and releases a mouse button over an element.
+    // dblclick: Triggered when the user double-clicks on an element.
+    // mousedown: Triggered when the mouse button is pressed down.
+    // mouseup: Triggered when the mouse button is released.
+    // mouseover: Triggered when the mouse enters an element.
+    // mouseout: Triggered when the mouse leaves an element.
+    // mousemove: Triggered when the mouse pointer moves over an element.
+
+    // 2. Keyboard Events
+    // Keyboard events are triggered by the user interacting with a keyboard. These events capture key presses and releases.
+    // Common Keyboard Events:
+
+    // keydown: Fired when a key is pressed down.
+    // keyup: Fired when a key is released.
+    // keypress: (Deprecated) Triggered when a key that produces a character is pressed.
+
+    // 3. Form Events
+    // Form events are specifically tied to HTML form elements. They detect interactions with forms, such as input changes, submissions, and focus.
+
+    // Common Form Events:
+
+    // submit: Triggered when a form is submitted.
+    // change: Fired when the value of an input, select, or textarea changes.
+    // focus: Triggered when an element gains focus.
+    // blur: Triggered when an element loses focus.
+    // input: Fired whenever the value of an input element is changed (similar to change, but fires on every change rather than after focus is lost).
+
+    // 4. Focus and Blur Events
+    // These events are related to an element gaining or losing focus. They are typically used with form elements like inputs, text areas, and buttons.
+
+    // Common Focus/Blur Events:
+
+    // focus: Triggered when an element receives focus.
+    // blur: Triggered when an element loses focus.
+
+    // 5. Clipboard Events
+    // Clipboard events are triggered when the user interacts with the clipboard (e.g., copying, cutting, or pasting content).
+
+    // Common Clipboard Events:
+
+    // copy: Fired when content is copied.
+    // cut: Fired when content is cut.
+    // paste: Fired when content is pasted.
+
+    // 6. Window Events
+    // Window events relate to the browser window, such as loading, resizing, or scrolling the document.
+
+    // Common Window Events:
+
+    // load: Triggered when the whole page (including all assets like images and scripts) is fully loaded.
+    // resize: Fired when the window is resized.
+    // scroll: Fired when the user scrolls the page or an element.
+    // unload: Triggered when the user leaves the page (deprecated in favor of beforeunload).
+
+    // 7. Drag and Drop Events
+    // Drag and drop events are used to handle elements that can be dragged and dropped within a webpage.
+
+    // Common Drag and Drop Events:
+
+    // dragstart: Fired when the dragging of an element begins.
+    // dragover: Fired when an element is being dragged over a valid drop target.
+    // drop: Fired when an element is dropped on a valid drop target.
+    // dragend: Fired when the drag action is completed.
+
+    // 8. Touch Events
+    // Touch events are designed for handling touchscreens and mobile devices. They respond to gestures and interactions with touchscreens.
+
+    // Common Touch Events:
+
+    // touchstart: Triggered when a finger touches the screen.
+    // touchmove: Fired when a finger moves across the screen.
+    // touchend: Fired when the finger is removed from the screen.
+
+    // 9. Media Events
+    // Media events are fired when interacting with multimedia elements like audio and video.
+
+    // Common Media Events:
+
+    // play: Fired when the media starts playing.
+    // pause: Fired when the media is paused.
+    // ended: Fired when the media reaches the end.
+  </script>
+</html>

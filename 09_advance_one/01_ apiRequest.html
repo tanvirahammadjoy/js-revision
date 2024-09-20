@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="background-color: #212121">
+    <!-- 0	UNSENT	Client has been created. open() not called yet.
+  1	OPENED	open() has been called.
+  2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+  3	LOADING	Downloading; responseText holds partial data.
+  4	DONE	The operation is complete. -->
+  </body>
+  <script>
+    // The XMLHttpRequest (XHR) object is a core feature in web development for making HTTP requests to a server and retrieving data, typically in the form of JSON, XML, or plain text. Although newer APIs like fetch and libraries like axios have largely replaced it, XMLHttpRequest remains relevant for certain legacy use cases.
+
+    // Let's dive deeper into its workings, features, properties, methods, and common use cases:
+
+    // 1. What is XMLHttpRequest?
+    // XMLHttpRequest is an API in the form of an object that allows web pages to interact with servers by sending and receiving data. It was created in the early 2000s and became a key part of AJAX (Asynchronous JavaScript and XML). Despite its name, it can handle a variety of data formats, not just XML.
+
+    // Primary Use Cases:
+    // Fetching data asynchronously from a server without reloading the entire page (AJAX).
+    // Sending form data to the server (POST requests).
+    // Uploading files.
+    // Handling both synchronous and asynchronous requests.
+
+    // 2. Creating an XMLHttpRequest Object
+    // You create an XMLHttpRequest object using its constructor:
+
+    // const xhr = new XMLHttpRequest();
+
+    // This object has various methods and properties that allow you to configure and send requests, listen for events, and handle the responses.
+
+    // 3. Common Methods and Properties
+
+    // Methods:
+    // .open(method, url, async, user, password):
+
+    // Initializes the request with the HTTP method (GET, POST, PUT, DELETE, etc.), the target URL, and a flag indicating whether the request should be asynchronous (true) or synchronous (false).
+    // user and password are optional for basic authentication.
+
+    // xhr.open('GET', 'https://api.example.com/data', true);
+
+    // .send(body):
+
+    // Sends the request to the server. The body is only used with methods like POST, PUT (i.e., requests that send data). GET requests do not need a body.
+    // For example, sending JSON data:
+
+    // const data = JSON.stringify({ username: 'user1', password: 'pass123' });
+    // xhr.send(data);
+
+    // .setRequestHeader(header, value):
+    // Sets an HTTP request header. You need to call .open() before using this method.
+
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // .abort():
+
+    // Aborts the request if it hasn’t been completed.
+    // Properties:
+    // .readyState:
+
+    // Returns the current state of the request. It can have one of five values:
+    // 0: UNSENT – open() hasn’t been called yet.
+    // 1: OPENED – open() has been called.
+    // 2: HEADERS_RECEIVED – send() has been called, and headers have been received.
+    // 3: LOADING – The request is in progress; data is being received.
+    // 4: DONE – The request is complete, and the response is ready.
+
+    // You often check readyState within the onreadystatechange event handler to know when the request is finished:
+
+    // xhr.onreadystatechange = function () {
+    // if (xhr.readyState === 4 && xhr.status === 200) {
+    //    console.log(xhr.responseText);
+    //   }
+    // };
+
+    // .status:
+
+    // The HTTP response status code (e.g., 200 for OK, 404 for Not Found, 500 for Internal Server Error).
+    // .responseText:
+
+    // Contains the response body as a string. Useful for handling text-based responses (HTML, JSON, XML).
+    // .responseXML:
+
+    // Parses the response as an XML Document object (if the server returns XML). This is rarely used nowadays as JSON is more common.
+    // .timeout:
+
+    // Specifies the time (in milliseconds) a request can take before it is automatically terminated.
+
+    // xhr.timeout = 2000; // Set timeout to 2 seconds
+
+    // .withCredentials:
+
+    // Allows sending credentials such as cookies or HTTP authentication with cross-origin requests (CORS).
+
+    // xhr.withCredentials = true;
+
+    const requestUrl = "https://api.github.com/users/hiteshchoudhary";
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", requestUrl);
+    xhr.onreadystatechange = function () {
+      console.log(xhr.readyState);
+      if (xhr.readyState === 4) {
+        const data = JSON.parse(this.responseText);
+        console.log(typeof data);
+        console.log(data.followers);
+      }
+    };
+    xhr.send();
+
+    // 4. Sending GET and POST Requests
+    // GET Request:
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://jsonplaceholder.typicode.com/posts", true);
+
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        console.log(JSON.parse(xhr.responseText));
+      } else {
+        console.error("Request failed with status: " + xhr.status);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.error("Request failed due to network error");
+    };
+
+    xhr.send(); // Send the GET request
+
+    // POST Request:
+    // With POST requests, you send data to the server as part of the request body.
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://jsonplaceholder.typicode.com/posts", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onload = function () {
+      if (xhr.status === 201) {
+        console.log("Post created:", JSON.parse(xhr.responseText));
+      } else {
+        console.error("Error: " + xhr.status);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.error("Network error");
+    };
+
+    const data = JSON.stringify({
+      title: "New Post",
+      body: "This is the body of the post",
+    });
+    xhr.send(data); // Send the POST request with JSON data
+
+    // 5. Handling Asynchronous Requests with onreadystatechange
+    // XMLHttpRequest uses an event-driven model. The key event is onreadystatechange, which fires every time the readyState changes. Most commonly, you check for the state when it becomes 4 (DONE), and then examine the status to see if the request succeeded.
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          console.log("Success:", xhr.responseText);
+        } else {
+          console.error("Error: " + xhr.status);
+        }
+      }
+    };
+
+    // common xhr methods use for API handling
+
+    // Create a new XMLHttpRequest object
+    const xhr = new XMLHttpRequest();
+
+    // Example API endpoints
+    const getUrl = "https://jsonplaceholder.typicode.com/posts";
+    const postUrl = "https://jsonplaceholder.typicode.com/posts";
+
+    // Handle readyState changes
+    xhr.onreadystatechange = function () {
+      console.log("ReadyState: " + xhr.readyState);
+
+      // ReadyState 4 means the request is done, we can now handle the response
+      if (xhr.readyState === 4) {
+        // Status 200 means the request was successful
+        if (xhr.status >= 200 && xhr.status < 300) {
+          console.log("Response Status: " + xhr.status);
+          console.log("Response Headers: " + xhr.getAllResponseHeaders());
+          console.log("Response Text: ", xhr.responseText);
+        } else {
+          console.error("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      }
+    };
+
+    // Handle success when the request is completed (after `readyState 4`)
+    xhr.onload = function () {
+      console.log("Request loaded successfully.");
+      // Parse the response JSON (if the server returns JSON)
+      const jsonResponse = JSON.parse(xhr.responseText);
+      console.log("Parsed Response:", jsonResponse);
+    };
+
+    // Handle network errors
+    xhr.onerror = function () {
+      console.error("Network error occurred.");
+    };
+
+    // Handle timeout
+    xhr.ontimeout = function () {
+      console.error("Request timed out.");
+    };
+
+    // Set timeout duration (2 seconds)
+    xhr.timeout = 2000; // 2000ms = 2 seconds
+
+    // GET Request: Fetch data from an API
+    xhr.open("GET", getUrl, true); // true means asynchronous
+
+    // Optional: Add custom request headers (for API keys, content type, etc.)
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Bearer your-token-here");
+
+    // Send the request
+    xhr.send(); // GET requests don’t require a body
+
+    // Abort the request if needed (uncomment this to test aborting the request)
+    // xhr.abort();
+
+    // You can use xhr.withCredentials = true for cross-origin requests that need credentials
+    xhr.withCredentials = true;
+
+    // After the GET request, let's perform a POST request
+    const dataToSend = {
+      title: "New Post",
+      body: "This is a new post being created via XMLHttpRequest.",
+      userId: 1,
+    };
+
+    // Prepare the XMLHttpRequest object for the POST request
+    xhr.open("POST", postUrl, true); // Open the POST request (true for async)
+
+    // Set appropriate headers for sending JSON data
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    // Handle POST request success
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        console.log("POST Success:", xhr.responseText);
+      } else {
+        console.error("POST Error:", xhr.status);
+      }
+    };
+
+    // Handle POST request failure
+    xhr.onerror = function () {
+      console.error("Error occurred during POST request.");
+    };
+
+    // Send the request with the JSON data
+    xhr.send(JSON.stringify(dataToSend));
+
+    // Monitor the progress of the request
+    xhr.onprogress = function (event) {
+      if (event.lengthComputable) {
+        console.log(`Received ${event.loaded} of ${event.total} bytes`);
+      } else {
+        console.log(`Received ${event.loaded} bytes`); // Total size unknown
+      }
+    };
+  </script>
+</html>

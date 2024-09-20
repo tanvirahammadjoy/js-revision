@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>htnml Events</title>
+  </head>
+  <body style="background-color: #414141; color: aliceblue">
+    <h2>Amazing image</h2>
+    <div>
+      <ul id="images">
+        <li>
+          <img
+            width="200px"
+            id="photoshop"
+            src="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt="photoshop"
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="japan"
+            src="https://images.pexels.com/photos/3532553/pexels-photo-3532553.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="river"
+            src="https://images.pexels.com/photos/3532551/pexels-photo-3532551.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="owl"
+            src="https://images.pexels.com/photos/3532552/pexels-photo-3532552.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            width="200px"
+            id="prayer"
+            src="https://images.pexels.com/photos/2522671/pexels-photo-2522671.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+            alt=""
+          />
+        </li>
+        <li>
+          <a style="color: aliceblue" href="https://google.com" id="google"
+            >Google</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!--  ** second Example **  -->
+
+    <div id="grandparent" class="box">
+      Grandparent
+      <div id="parent" class="box">
+        Parent
+        <div id="child" class="box">Child</div>
+      </div>
+    </div>
+  </body>
+  <script>
+    // we used to use before event listener
+    // <button onclick="alert('Button clicked!')">Click me</button>
+    // <button onclick="console.log('Inline handler')">Click me</button>
+    // document.getElementById('owl').onclick = function(){
+    //     alert("owl clicked")
+    // }
+
+    // attachEvent() // old used event
+    // jQuery - on // this was also an popular event handler for it's own time but not now
+
+    // study topic
+    // type, timestamp, defaultPrevented
+    // target, toElement, srcElement, currentTarget,
+    // clientX, clientY, screenX, screenY
+    // altkey, ctrlkey, shiftkey, keyCode
+
+    // JavaScript Event Flow: Capturing and Bubbling
+    // Event flow in JavaScript determines the order in which event listeners are triggered when an event occurs on an element. It consists of three phases:
+
+    // Capturing Phase (Event Capture)
+    // Target Phase
+    // Bubbling Phase (Event Bubble)
+
+    // 1. Capturing Phase
+    // The event starts from the window and moves down through the ancestors of the target element until it reaches the target element itself.
+    // In capturing, listeners registered during this phase handle the event as it "travels down" the DOM tree.
+
+    // 2. Target Phase
+    // The event reaches the target element and triggers any listeners on that element.
+
+    // 3. Bubbling Phase
+    // After reaching the target, the event "bubbles" back up to the root (window), triggering listeners attached during the bubbling phase.
+
+    // Behind the Scenes
+    // Event Propagation: When an event is fired, the browser first checks whether there are any event listeners in the capturing phase for elements along the path down to the target. After reaching the target, the event listeners of the target phase execute. Then, the bubbling phase starts, moving up the DOM tree, triggering event listeners along the way.
+
+    // Event Listeners in Capturing and Bubbling: You can specify whether the listener runs in the capturing or bubbling phase by passing a third argument (true for capturing and false or omitted for bubbling).
+
+    // Event Flow Control:
+
+    // event.stopPropagation() prevents the event from propagating further in any phase (capture or bubble).
+    // event.stopImmediatePropagation() stops all other event listeners from being executed on the same element.
+    // Example of Event Flow (Capturing and Bubbling)
+
+    // this is the new version;
+    document.getElementById("images").addEventListener(
+      "click",
+      function (e) {
+        console.log("clicked inside the ul");
+      },
+      false
+    );
+
+    document.getElementById("owl").addEventListener(
+      "click",
+      function (e) {
+        console.log("owl clicked");
+        e.stopPropagation();
+      },
+      false
+    );
+
+    document.getElementById("google").addEventListener(
+      "click",
+      function (e) {
+        e.preventDefault(); // stopping to sending the request to server
+        e.stopPropagation(); // fo stop propagation
+        console.log("google clicked");
+      },
+      false
+    );
+
+    document.querySelector("#images").addEventListener("click", function (e) {
+      console.log(e.target.tagName);
+      if (e.target.tagName === "IMG") {
+        console.log(e.target.id);
+        let removeIt = e.target.parentNode;
+        removeIt.remove();
+      }
+    });
+
+    //removeIt.parentNode.removeChild(removeIt)
+
+    //  <!--  ** second Example **  -->  //
+
+    // Add event listeners for each phase
+
+    // Listener on Grandparent in the capturing phase
+    document.getElementById("grandparent").addEventListener(
+      "click",
+      function (event) {
+        console.log("Grandparent (Capturing)");
+      },
+      true
+    ); // `true` means it triggers during capturing phase
+
+    // Listener on Parent in the capturing phase
+    document.getElementById("parent").addEventListener(
+      "click",
+      function (event) {
+        console.log("Parent (Capturing)");
+      },
+      true
+    );
+
+    // Listener on Child in the capturing phase
+    document.getElementById("child").addEventListener(
+      "click",
+      function (event) {
+        console.log("Child (Capturing)");
+      },
+      true
+    );
+
+    // Listener on Child in the bubbling phase
+    document.getElementById("child").addEventListener(
+      "click",
+      function (event) {
+        console.log("Child (Bubbling)");
+      },
+      false
+    ); // `false` or omitted means it triggers during bubbling phase
+
+    // Listener on Parent in the bubbling phase
+    document.getElementById("parent").addEventListener(
+      "click",
+      function (event) {
+        console.log("Parent (Bubbling)");
+      },
+      false
+    );
+
+    // Listener on Grandparent in the bubbling phase
+    document.getElementById("grandparent").addEventListener(
+      "click",
+      function (event) {
+        console.log("Grandparent (Bubbling)");
+      },
+      false
+    );
+
+    // Stop propagation at Child element in the bubbling phase
+    document.getElementById("child").addEventListener(
+      "click",
+      function (event) {
+        console.log("Stopping Propagation");
+        event.stopPropagation(); // Prevents further bubbling beyond this element
+      },
+      false
+    );
+
+    // Explanation of the Example:
+    // HTML Structure: We have three nested <div> elements: grandparent, parent, and child. Each has event listeners attached for both capturing and bubbling phases.
+
+    // Capturing Phase:
+
+    // When you click the "Child" element, the event travels from the window down to the target (child).
+    // The listeners for grandparent, parent, and child in the capturing phase are triggered in that order.
+    // Target Phase:
+
+    // The event reaches the child element, and the listeners attached directly to the child execute.
+
+    // Bubbling Phase:
+    // After the event reaches the child, it starts bubbling back up the DOM tree.
+    // The listeners for child, parent, and grandparent in the bubbling phase are triggered in reverse order.
+
+    // Stopping Propagation:
+    // The event's propagation is stopped at the child element in the bubbling phase using event.stopPropagation().
+    // This prevents the event from bubbling further up to the parent or grandparent.
+
+    // Output when Clicking the Child Element:
+    // When you click on the child element:
+
+    // Capturing Phase: The console logs:
+
+    // Grandparent (Capturing)
+    // Parent (Capturing)
+    // Child (Capturing)
+    // Target Phase:
+
+    // Child (Bubbling) (Since this listener runs both in capturing and bubbling).
+    // Bubbling Phase: The console logs:
+
+    // Stopping Propagation (The event is stopped here, so Parent (Bubbling) and Grandparent (Bubbling) are never triggered).
+    // Behind-the-Scenes Mechanism:
+    // Event Registration: The addEventListener function registers the event listener to the specified element. If useCapture is true, the listener will respond during the capturing phase; otherwise, it listens during the bubbling phase.
+
+    // Event Dispatching: When the click event occurs, the browser creates an event object and begins propagation. In the capturing phase, it checks the DOM tree from the root (window) to the target element, executing any listeners marked for capturing.
+
+    // Event Bubbling: Once the event hits the target, the event listeners marked for bubbling are executed from the target back up to the root.
+
+    // By leveraging these phases, developers can control when and how event handlers execute in complex DOM structures.
+
+    // 4. Removing Event Handlers
+    // With addEventListener(), you can also remove event listeners when they're no longer needed:
+
+    // Syntax:
+    let button = document.getElementById("myButton");
+
+    function logMessage() {
+      console.log("Click event handled");
+    }
+
+    button.addEventListener("click", logMessage);
+
+    // Remove the event listener
+    button.removeEventListener("click", logMessage);
+
+    // Use Case:
+    // Useful when you want to control the lifecycle of an event handler, such as removing listeners after a task is completed or to optimize performance.
+    // Behind the Scenes:
+    // The browser maintains references to the attached functions, so when removeEventListener() is called, it compares the function reference to find the match in the internal list and removes it.
+    // Note: The exact same function reference must be used for both addEventListener() and removeEventListener(). Anonymous functions cannot be removed this way.
+
+    // 5. Event Handler Options
+    // Starting from modern browsers, addEventListener() supports additional options for more precise control over event behavior:
+    // Syntax:
+
+    element.addEventListener("click", callback, { once: true, passive: true });
+
+    // Options:
+    // once: true: The event listener is called at most once and then removed automatically.
+    // passive: true: Indicates that the event handler will never call preventDefault(), improving performance for certain events like scroll or touchmove.
+    // capture: true: Specifies that the listener should be invoked during the capturing phase.
+    // Use Case:
+    // Use once for one-time events like form submissions or popups.
+    // Use passive for scroll events to improve performance on touch devices.
+    // Behind the Scenes:
+    // The browser optimizes event handling based on the provided options. For example, passive: true tells the browser it can proceed with default behaviors (like scrolling) without waiting for the event handler to finish.
+
+    // Best Practices:
+    // Use addEventListener for flexibility and better control.
+    // Avoid inline handlers to keep concerns separated (HTML, CSS, JS).
+    // Remove event listeners when they are no longer needed, especially in single-page applications to avoid memory leaks.
+    // Use passive listeners for events like scroll to improve performance.
+  </script>
+</html>
